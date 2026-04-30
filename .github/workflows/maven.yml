@@ -42,3 +42,20 @@ jobs:
       with:
         name: jacoco-report-${{ matrix.os }}
         path: BankSystem/target/site/jacoco/
+
+    # Chạy Checkstyle và tạo file báo cáo XML (cho phép lỗi để chạy tiếp bước dưới)
+    - name: Generate Checkstyle Report
+      working-directory: ./BankSystem
+      run: mvn checkstyle:checkstyle
+      continue-on-error: true 
+
+    # Đọc file XML và tự động comment vào PR
+    - name: Inline Checkstyle Feedback
+      if: github.event_name == 'pull_request' # Chỉ chạy khi có PR
+      uses: dbelyaev/action-checkstyle@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        reporter: github-pr-review
+        level: warning
+        checkstyle_config: BankSystem/google_checks.xml
+        workdir: ./BankSystem
