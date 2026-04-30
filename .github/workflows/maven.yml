@@ -8,12 +8,10 @@ on:
 
 jobs:
   build:
-    # 1. Thêm chiến lược Matrix ở đây
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     
-    # 2. Sửa lại môi trường chạy linh hoạt theo Matrix
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -27,12 +25,20 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build dự án với Maven (Test & Package)
+    # Đã sửa "test package" thành "verify" theo đúng đề bài Bài 5
+    - name: Build dự án và Check Coverage
       working-directory: ./BankSystem
-      run: mvn clean test package
+      run: mvn clean verify
 
     - name: Upload file JAR lên Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: banksystem-jar-${{ matrix.os }} # Đổi tên artifact để không bị trùng
+        name: banksystem-jar-${{ matrix.os }}
         path: BankSystem/target/*.jar
+
+    # Thêm bước tải báo cáo Coverage theo yêu cầu Bài 5
+    - name: Upload JaCoCo Coverage Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: jacoco-report-${{ matrix.os }}
+        path: BankSystem/target/site/jacoco/
