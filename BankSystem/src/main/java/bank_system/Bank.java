@@ -135,3 +135,7 @@ public class Bank {
     return sb.toString();
   }
 }
+
+public void testBot() {
+        int BIEN_loi_Tum_Lum = 1; // Checkstyle cực ghét cái này
+    }
