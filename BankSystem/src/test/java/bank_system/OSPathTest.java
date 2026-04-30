@@ -13,7 +13,7 @@ public class OSPathTest {
         String file = "transaction.log";
         
         // Cố tình fix cứng bằng dấu gạch chéo ngược của Windows (\)
-        String hardcodedPath = folder + "\\" + file; 
+        String hardcodedPath = folder + java.io.File.separator + file;
 
         // Paths.get() sẽ lấy đường dẫn chuẩn theo OS đang chạy
         // Trên Windows nó là "logs\transaction.log"
