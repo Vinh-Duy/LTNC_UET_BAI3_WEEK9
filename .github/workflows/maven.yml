@@ -8,7 +8,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # 1. Thêm chiến lược Matrix ở đây
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    
+    # 2. Sửa lại môi trường chạy linh hoạt theo Matrix
+    runs-on: ${{ matrix.os }}
 
     steps:
     - name: Checkout mã nguồn
@@ -21,7 +27,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # BẮT BUỘC PHẢI CÓ DÒNG NÀY ĐỂ MAVEN CHUI VÀO ĐÚNG THƯ MỤC
     - name: Build dự án với Maven (Test & Package)
       working-directory: ./BankSystem
       run: mvn clean test package
@@ -29,5 +34,5 @@ jobs:
     - name: Upload file JAR lên Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: banksystem-jar
+        name: banksystem-jar-${{ matrix.os }} # Đổi tên artifact để không bị trùng
         path: BankSystem/target/*.jar
