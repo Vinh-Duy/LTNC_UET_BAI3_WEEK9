@@ -1,6 +1,5 @@
 name: Java CI with Maven
 
-# Kích hoạt workflow khi có push hoặc pull_request
 on:
   push:
     branches: [ "main", "master" ]
@@ -22,13 +21,13 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # Thực thi vòng đời build của Maven: test và package
+    # BẮT BUỘC PHẢI CÓ DÒNG NÀY ĐỂ MAVEN CHUI VÀO ĐÚNG THƯ MỤC
     - name: Build dự án với Maven (Test & Package)
+      working-directory: ./BankSystem
       run: mvn clean test package
 
-    # Triển khai action upload-artifact để lưu file .jar
     - name: Upload file JAR lên Artifact
       uses: actions/upload-artifact@v4
       with:
         name: banksystem-jar
-        path: target/*.jar
+        path: BankSystem/target/*.jar
