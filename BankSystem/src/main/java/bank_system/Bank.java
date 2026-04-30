@@ -16,11 +16,14 @@ import org.slf4j.LoggerFactory;
 public class Bank {
   private static final Logger logger = LoggerFactory.getLogger(Bank.class);
   private static final String ID_REGEX = "\\d{9}";
+  public void testBot() {
+        int BIEN_loi_Tum_Lum = 1; // Checkstyle cực ghét cái này
+    }
 
   private List<Customer> customerList;
 
   public Bank() {
-    this.customerList = new ArrayList<>();
+                  this.customerList = new ArrayList<>();
   }
 
   public List<Customer> getCustomerList() {
@@ -135,3 +138,4 @@ public class Bank {
     return sb.toString();
   }
 }
+

@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
     
@@ -52,7 +53,7 @@ jobs:
 
     # Đọc file XML và tự động comment vào PR
     - name: Inline Checkstyle Feedback
-      if: always() && github.event_name == 'pull_request' # Chỉ chạy khi có PR
+      if: always() && runner.os == 'Linux' && github.event_name == 'pull_request' # Chỉ chạy khi có PR
       uses: dbelyaev/action-checkstyle@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
